@@ -240,6 +240,7 @@ document.getElementById('search').addEventListener('input', function(){
     renderGames(filtered);
 });
 
+/*
 function openGame(slug) {
 
     const game = gamesData.find(g => g.slug === slug);
@@ -270,6 +271,11 @@ function openGame(slug) {
 
     //document.getElementById('gameFrame').src = game.url;
     
+}
+*/
+
+function openGame(slug) {
+    alert("Button clicked: " + slug);
 }
 
 function closeGame() {
