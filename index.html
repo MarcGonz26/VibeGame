@@ -256,6 +256,14 @@ function openGame(slug) {
     );
 
     document.title = game.title + ' | VibeGame';
+
+    //Debug Console
+    const game = gamesData.find(g => g.slug === slug);
+
+    console.log("Opening:", game.url);
+
+    document.getElementById('gameFrame').src = game.url;
+    
 }
 
 function closeGame() {
@@ -290,15 +298,6 @@ function shareGame() {
 
     alert("Game link copied!");
 }    
-
-function openGame(slug) {
-
-    const game = gamesData.find(g => g.slug === slug);
-
-    console.log("Opening:", game.url);
-
-    document.getElementById('gameFrame').src = game.url;
-}
     
 </script>
 
