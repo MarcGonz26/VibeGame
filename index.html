@@ -451,15 +451,19 @@
             const game = gamesData.find(g => g.slug === slug);
             if (!game) return;
         
+            // Check if the URL is hosted on Makermint or external sites that block iframe hotlinking
+            if (game.url.includes('play.makermint.com')) {
+                window.open(game.url, '_blank', 'noopener,noreferrer');
+                return;
+            }
+        
+            // Standard iframe launcher for embeddable games
             document.getElementById('gameListView').style.display = 'none';
             document.getElementById('gameViewer').style.display = 'block';
-        
             document.getElementById('gameTitle').innerText = game.title;
             
             const iframe = document.getElementById('gameFrame');
             iframe.src = game.url.trim();
-        
-            // Focus iframe on user click to unlock AudioContext immediately
             iframe.focus();
         
             history.pushState({}, '', '?game=' + encodeURIComponent(slug));
