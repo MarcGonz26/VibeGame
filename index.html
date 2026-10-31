@@ -151,9 +151,12 @@ header h1{
         </button>
 
         <div id="gameTitle"></div>
-
+        
         <button class="back-btn" onclick="toggleFullscreen()">
             Fullscreen
+        </button>
+        <button class="back-btn" onclick="shareGame()">
+            Share
         </button>
     </div>
 
@@ -168,10 +171,38 @@ let gamesData = [];
 fetch('games.json')
 .then(response => response.json())
 .then(data => {
+
     gamesData = data;
+
     renderGames(data);
+
+    checkDeepLink();
+
 });
 
+function checkDeepLink() {
+
+    const params = new URLSearchParams(window.location.search);
+
+    const slug = params.get('game');
+
+    if (!slug) return;
+
+    const game = gamesData.find(g => g.slug === slug);
+
+    if (!game) return;
+
+    document.getElementById('gameListView').style.display = 'none';
+
+    document.getElementById('gameViewer').style.display = 'block';
+
+    document.getElementById('gameTitle').innerText = game.title;
+
+    document.getElementById('gameFrame').src = game.url;
+
+    document.title = game.title + ' | VibeGame';
+}
+    
 function renderGames(games){
 
     const container = document.getElementById('games');
@@ -184,7 +215,7 @@ function renderGames(games){
                 <p>${game.description}</p>
                 <button
                     class="play-btn"
-                    onclick="openGame('${game.title.replace(/'/g,"\\'")}','${game.url}')">
+                    onclick="openGame('${game.slug}')">
                     Play Now
                 </button>
             </div>
@@ -203,27 +234,41 @@ document.getElementById('search').addEventListener('input', function(){
     renderGames(filtered);
 });
 
-function openGame(title,url){
+function openGame(slug) {
 
-    document.getElementById('gameListView').style.display='none';
+    const game = gamesData.find(g => g.slug === slug);
 
-    document.getElementById('gameViewer').style.display='block';
+    if (!game) return;
 
-    document.getElementById('gameTitle').innerText = title;
+    document.getElementById('gameListView').style.display = 'none';
 
-    document.getElementById('gameFrame').src = url;
+    document.getElementById('gameViewer').style.display = 'block';
 
-    window.scrollTo(0,0);
+    document.getElementById('gameTitle').innerText = game.title;
+
+    document.getElementById('gameFrame').src = game.url;
+
+    // Update URL
+    history.pushState(
+        {},
+        '',
+        '?game=' + encodeURIComponent(slug)
+    );
+
+    document.title = game.title + ' | VibeGame';
 }
 
-function closeGame(){
+function closeGame() {
 
-    document.getElementById('gameViewer').style.display='none';
+    document.getElementById('gameViewer').style.display = 'none';
 
-    document.getElementById('gameListView').style.display='block';
+    document.getElementById('gameListView').style.display = 'block';
 
-    document.getElementById('gameFrame').src='';
+    document.getElementById('gameFrame').src = '';
 
+    history.pushState({}, '', './');
+
+    document.title = 'VibeGame';
 }
 
 function toggleFullscreen(){
@@ -238,6 +283,13 @@ function toggleFullscreen(){
         iframe.msRequestFullscreen();
     }
 }
+
+function shareGame() {
+
+    navigator.clipboard.writeText(window.location.href);
+
+    alert("Game link copied!");
+}    
 
 </script>
 
