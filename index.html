@@ -222,7 +222,7 @@ function renderGames(games){
                 <p>${game.description}</p>
                 <button
                     class="play-btn"
-                    onclick="openGame('${game.slug}')">
+                    data-slug="${game.slug}">
                     Play Now
                 </button>
             </div>
