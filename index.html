@@ -447,6 +447,7 @@
         }
 
         // Render Game Cards
+        // Render Game Cards
         function renderGames(games){
             const container = document.getElementById('games');
             const noResults = document.getElementById('no-results');
@@ -476,7 +477,7 @@
                             onerror="this.src='${fallbackImg}'"
                         >
                         <div class="absolute inset-0 bg-gradient-to-t from-cyber-card via-transparent to-transparent opacity-90"></div>
-                         
+                        
                         <div class="absolute top-3 left-3">
                             <span class="bg-black/80 backdrop-blur-md text-cyan-400 border border-cyan-500/30 font-mono text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
                                 Web Play
@@ -492,7 +493,7 @@
 
                         <div class="pt-2 flex items-center gap-2">
                             <button
-                                class="play-fn cyber-btn flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-neon-cyan cursor-pointer"
+                                class="play-btn cyber-btn flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-neon-cyan cursor-pointer"
                                 data-slug="${game.slug}">
                                 <i class="fa-solid fa-play text-xs"></i> Play Now
                             </button>
