@@ -160,7 +160,13 @@ header h1{
         </button>
     </div>
 
-    <iframe id="gameFrame"></iframe>
+    <!--<iframe id="gameFrame"></iframe>-->
+    <iframe
+    id="gameFrame"
+    src="https://app.makermint.com/play/44vEB66f"
+    width="100%"
+    height="800">
+    </iframe>
 
 </div>
 
@@ -202,7 +208,7 @@ function checkDeepLink() {
 
     document.title = game.title + ' | VibeGame';
 }
-    
+
 function renderGames(games){
 
     const container = document.getElementById('games');
