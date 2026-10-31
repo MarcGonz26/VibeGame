@@ -240,42 +240,28 @@ document.getElementById('search').addEventListener('input', function(){
     renderGames(filtered);
 });
 
-/*
 function openGame(slug) {
 
     const game = gamesData.find(g => g.slug === slug);
 
     if (!game) return;
 
+    // MakerMint games cannot be embedded
+    if (game.url.includes('app.makermint.com')) {
+        window.open(game.url, '_blank');
+        return;
+    }
+
     document.getElementById('gameListView').style.display = 'none';
-
     document.getElementById('gameViewer').style.display = 'block';
-
     document.getElementById('gameTitle').innerText = game.title;
-
     document.getElementById('gameFrame').src = game.url;
 
-    // Update URL
     history.pushState(
         {},
         '',
         '?game=' + encodeURIComponent(slug)
     );
-
-    document.title = game.title + ' | VibeGame';
-
-    //Debug Console
-    //const game = gamesData.find(g => g.slug === slug);
-
-    //console.log("Opening:", game.url);
-
-    //document.getElementById('gameFrame').src = game.url;
-    
-}
-*/
-
-function openGame(slug) {
-    alert("Button clicked: " + slug);
 }
 
 function closeGame() {
