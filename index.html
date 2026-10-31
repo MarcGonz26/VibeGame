@@ -3,33 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VibeGame</title>
+<title>Vibe Gaming</title>
 
 <style>
-body{
+*{
     margin:0;
-    font-family:Segoe UI, sans-serif;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
     background:#0f172a;
     color:#fff;
 }
 
+/* Header */
 header{
-    padding:30px;
     text-align:center;
+    padding:20px;
     background:#1e293b;
 }
 
-h1{
-    margin:0;
+header h1{
+    margin-bottom:10px;
 }
 
 #search{
-    width:90%;
+    width:100%;
     max-width:500px;
     padding:12px;
-    margin-top:15px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
+}
+
+/* Game List */
+#gameListView{
+    display:block;
 }
 
 .games{
@@ -43,7 +53,7 @@ h1{
 
 .card{
     background:#1e293b;
-    border-radius:15px;
+    border-radius:12px;
     overflow:hidden;
     transition:.3s;
 }
@@ -62,31 +72,94 @@ h1{
     padding:15px;
 }
 
+.content p{
+    margin:10px 0;
+}
+
 .play-btn{
-    display:inline-block;
-    margin-top:10px;
-    padding:10px 15px;
     background:#3b82f6;
-    color:#fff;
-    text-decoration:none;
+    color:white;
+    border:none;
+    padding:10px 20px;
     border-radius:8px;
+    cursor:pointer;
 }
 
 .play-btn:hover{
     background:#2563eb;
 }
+
+/* Viewer */
+#gameViewer{
+    display:none;
+    height:100vh;
+    width:100%;
+}
+
+.viewer-header{
+    height:60px;
+    background:#111827;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+}
+
+.back-btn{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:#dc2626;
+}
+
+#gameTitle{
+    font-size:18px;
+}
+
+#gameFrame{
+    width:100%;
+    height:calc(100vh - 60px);
+    border:none;
+    background:#000;
+}
 </style>
 </head>
 <body>
 
-<header>
-    <h1>🎮 VibeGame</h1>
-    <p>Play Free Browser Games</p>
+<div id="gameListView">
 
-    <input type="text" id="search" placeholder="Search games...">
-</header>
+    <header>
+        <h1>🎮 VibeGame</h1>
+        <input type="text" id="search" placeholder="Search games...">
+    </header>
 
-<div class="games" id="games"></div>
+    <div class="games" id="games"></div>
+
+</div>
+
+<div id="gameViewer">
+
+    <div class="viewer-header">
+        <button class="back-btn" onclick="closeGame()">
+            ← Back
+        </button>
+
+        <div id="gameTitle"></div>
+
+        <button class="back-btn" onclick="toggleFullscreen()">
+            Fullscreen
+        </button>
+    </div>
+
+    <iframe id="gameFrame"></iframe>
+
+</div>
 
 <script>
 
@@ -100,6 +173,7 @@ fetch('games.json')
 });
 
 function renderGames(games){
+
     const container = document.getElementById('games');
 
     container.innerHTML = games.map(game => `
@@ -108,11 +182,11 @@ function renderGames(games){
             <div class="content">
                 <h3>${game.title}</h3>
                 <p>${game.description}</p>
-                <a class="play-btn"
-                   href="${game.url}"
-                   target="_blank">
-                   Play Now
-                </a>
+                <button
+                    class="play-btn"
+                    onclick="openGame('${game.title.replace(/'/g,"\\'")}','${game.url}')">
+                    Play Now
+                </button>
             </div>
         </div>
     `).join('');
@@ -128,6 +202,42 @@ document.getElementById('search').addEventListener('input', function(){
 
     renderGames(filtered);
 });
+
+function openGame(title,url){
+
+    document.getElementById('gameListView').style.display='none';
+
+    document.getElementById('gameViewer').style.display='block';
+
+    document.getElementById('gameTitle').innerText = title;
+
+    document.getElementById('gameFrame').src = url;
+
+    window.scrollTo(0,0);
+}
+
+function closeGame(){
+
+    document.getElementById('gameViewer').style.display='none';
+
+    document.getElementById('gameListView').style.display='block';
+
+    document.getElementById('gameFrame').src='';
+
+}
+
+function toggleFullscreen(){
+
+    const iframe = document.getElementById('gameFrame');
+
+    if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+    } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+    } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
+    }
+}
 
 </script>
 
