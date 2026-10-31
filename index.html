@@ -92,8 +92,10 @@ header h1{
 /* Viewer */
 #gameViewer{
     display:none;
-    height:100vh;
-    width:100%;
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:#000;
 }
 
 .viewer-header{
@@ -246,24 +248,21 @@ function openGame(slug) {
 
     if (!game) return;
 
-    // MakerMint games cannot be embedded
-    if (game.url.includes('app.makermint.com')) {
-        window.open(game.url, '_blank');
-        return;
-    }
-
     document.getElementById('gameListView').style.display = 'none';
     document.getElementById('gameViewer').style.display = 'block';
+
     document.getElementById('gameTitle').innerText = game.title;
-    document.getElementById('gameFrame').src = game.url;
+
+    document.getElementById('gameFrame').src = game.url.trim();
 
     history.pushState(
         {},
         '',
         '?game=' + encodeURIComponent(slug)
     );
-}
 
+    document.title = game.title + ' | VibeGame';
+}
 function closeGame() {
 
     document.getElementById('gameViewer').style.display = 'none';
