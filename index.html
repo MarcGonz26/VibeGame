@@ -447,7 +447,6 @@
         }
 
         // Render Game Cards
-        // Render Game Cards
         function renderGames(games){
             const container = document.getElementById('games');
             const noResults = document.getElementById('no-results');
@@ -514,6 +513,7 @@
         }
 
         // Event Delegation for Play Buttons
+        /*
         document.getElementById('games').addEventListener('click', function(e) {
             const btn = e.target.closest('.play-btn');
             if (btn) {
@@ -521,6 +521,17 @@
                 if (slug) {
                     openGame(slug);
                 }
+            }
+        });
+        */
+        // Bulletproof Global Event Delegation for Play Buttons
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.play-btn');
+            if (!btn) return;
+            
+            const slug = btn.getAttribute('data-slug');
+            if (slug) {
+                openGame(slug);
             }
         });
 
