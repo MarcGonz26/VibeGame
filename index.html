@@ -129,6 +129,31 @@
             50% { transform: scale(1.2); color: #ff0055; }
         }
 
+        /* Third-Party Join Referral Button */
+        .join-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 14px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.4);
+            border-radius: 8px;
+            color: #00f3ff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .join-btn:hover {
+            background: rgba(0, 243, 255, 0.25);
+            border-color: #00f3ff;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        
         /* Animated Background Gradients */
         .animated-bg {
             background: linear-gradient(-45deg, #0a0a16, #160a24, #081a24, #0d0614);
@@ -451,7 +476,7 @@
                             onerror="this.src='${fallbackImg}'"
                         >
                         <div class="absolute inset-0 bg-gradient-to-t from-cyber-card via-transparent to-transparent opacity-90"></div>
-                        
+                         
                         <div class="absolute top-3 left-3">
                             <span class="bg-black/80 backdrop-blur-md text-cyan-400 border border-cyan-500/30 font-mono text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">
                                 Web Play
@@ -465,12 +490,22 @@
                             <p class="text-xs text-gray-400 leading-relaxed line-clamp-2 font-sans">${game.description || 'Experience high-vibe browser gaming in instant launch mode.'}</p>
                         </div>
 
-                        <div class="pt-2">
+                        <div class="pt-2 flex items-center gap-2">
                             <button
-                                class="play-btn cyber-btn w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-neon-cyan cursor-pointer"
+                                class="play-fn cyber-btn flex-1 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-neon-cyan cursor-pointer"
                                 data-slug="${game.slug}">
                                 <i class="fa-solid fa-play text-xs"></i> Play Now
                             </button>
+
+                            ${game.referralUrl ? `
+                                <a href="${game.referralUrl}" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer" 
+                                   class="join-btn px-3 py-2.5 bg-cyan-950/40 hover:bg-cyan-900/60 border border-cyan-500/40 hover:border-cyan-400 text-cyan-400 hover:text-white rounded-lg text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-300 shadow-sm"
+                                   title="Join Platform">
+                                    <i class="fa-solid fa-user-plus text-xs"></i> Join
+                                </a>
+                            ` : ''}
                         </div>
                     </div>
                 </div>
