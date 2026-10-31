@@ -546,6 +546,38 @@
                 }, 3000);
             }
         }
+
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+              .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+              .catch(err => console.error('PWA Registration failed:', err));
+          });
+        }
+        
+        // Handle PWA Installation Banner / Button
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          
+          // Show an Install Button in your header UI if available
+          const installBtn = document.getElementById('pwaInstallBtn');
+          if (installBtn) {
+            installBtn.style.display = 'inline-flex';
+            installBtn.addEventListener('click', () => {
+              deferredPrompt.prompt();
+              deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                  console.log('User installed VibeGame PWA');
+                }
+                deferredPrompt = null;
+                installBtn.style.display = 'none';
+              });
+            });
+          }
+        });
     </script>
 </body>
 </html>
