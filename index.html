@@ -450,19 +450,19 @@
         function openGame(slug) {
             const game = gamesData.find(g => g.slug === slug);
             if (!game) return;
-
+        
             document.getElementById('gameListView').style.display = 'none';
-            document.getElementById('gameViewer').style.display = 'flex';
-
+            document.getElementById('gameViewer').style.display = 'block';
+        
             document.getElementById('gameTitle').innerText = game.title;
-            document.getElementById('gameFrame').src = game.url.trim();
-
-            history.pushState(
-                {},
-                '',
-                '?game=' + encodeURIComponent(slug)
-            );
-
+            
+            const iframe = document.getElementById('gameFrame');
+            iframe.src = game.url.trim();
+        
+            // Focus iframe on user click to unlock AudioContext immediately
+            iframe.focus();
+        
+            history.pushState({}, '', '?game=' + encodeURIComponent(slug));
             document.title = game.title + ' | VibeGame';
         }
 
