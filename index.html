@@ -556,6 +556,7 @@
 
         // Open Game Function
         function openGame(slug) {
+            /*
             const game = gamesData.find(g => g.slug === slug);
             if (!game) return;
         
@@ -575,6 +576,42 @@
             iframe.focus();
         
             history.pushState({}, '', '?game=' + encodeURIComponent(slug));
+            document.title = game.title + ' | VibeGame';
+            */
+            
+            const game = gamesData.find(g => g.slug === slug);
+        
+            if (!game) return;
+        
+            // Games marked as non-embeddable
+            if (game.embed === false) {
+        
+                // Open in new tab
+                window.open(
+                    game.url,
+                    '_blank',
+                    'noopener,noreferrer'
+                );
+        
+                return;
+            }
+        
+            // Embedded game viewer
+            document.getElementById('gameListView').style.display = 'none';
+            document.getElementById('gameViewer').style.display = 'block';
+        
+            document.getElementById('gameTitle').innerText = game.title;
+        
+            const iframe = document.getElementById('gameFrame');
+        
+            iframe.src = game.url.trim();
+        
+            history.pushState(
+                {},
+                '',
+                '?game=' + encodeURIComponent(slug)
+            );
+        
             document.title = game.title + ' | VibeGame';
         }
 
