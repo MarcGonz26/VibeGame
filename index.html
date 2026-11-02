@@ -444,7 +444,17 @@
             //document.getElementById('gameFrame').src = game.url;
             // External game, don't use iframe
             if (game.embed === false) {
-                window.location.href = game.url;
+
+                if (game.newTab === false) {
+                    window.location.href = game.url;
+                } else {
+                    window.open(
+                        game.url,
+                        '_blank',
+                        'noopener,noreferrer'
+                    );
+                }
+            
                 return;
             }
             
